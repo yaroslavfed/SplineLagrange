@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace SplineLagrange
 {
     internal class Program
     {
-        static List<double> points = new List<double>();    // точки по ОХ
-        static List<double> fx = new List<double>();        // точки по ОY 
-        static List<double> Lfx = new List<double>();       // точки по ОY 
+        static List<double> points = new List<double>();    // известные точки
+        static List<double> x = new List<double>();         // весь х
+        static List<double> fx = new List<double>();        // f(x)
+        static List<double> Lfx = new List<double>();       // значение полинома Лагранжа в x
 
         static private void ReadMash(string path)
         {
@@ -23,7 +25,8 @@ namespace SplineLagrange
         static private void DrawPlot()
         {
 #if true
-            var result = points.Concat(Lfx);
+            //var result = points.Concat(Lfx);
+            var result = x.Concat(Lfx);
 
             using Process myProcess = new Process();
             myProcess.StartInfo.FileName = "python";
@@ -39,35 +42,39 @@ namespace SplineLagrange
 #endif
         }
 
-        static private double funtion(double x) => Math.Pow(x, 6);
+        static private double funtion(double x) => Math.Pow(x, 3);
 
         static private void LagrangePolynomial()
         {
             int n = points.Count;
-            double lk = 1;
-            double result = 0;
 
-            for (int i = 0; i < n; i++)
+            foreach(double point in points)
+                Console.Write("{0} ", point);
+            Console.WriteLine();
+
+            for (double k = -4; k <= 4; k+=0.5)
             {
-                for (int k = 0; k < n; k++)
+                x.Add(k);
+                double sum = 0;
+                for (int i = 0; i < n; i++)
                 {
+                    double li = 1;
                     for (int j = 0; j < n; j++)
                     {
-                        if (j!=k)
+                        if (j!=i)
                         {
-                            lk *= (points[i] - points[j]) / (points[k] - points[j]);
+                            li *= (k - points[j]) / (points[i] - points[j]);
                         }
                         else
                         {
-                            lk *= 1;
+                            li *= 1;
                         }
                     }
-                    result += fx[k] * lk;
-                    lk = 1;
+                    li *= fx[i];
+                    sum += li;
                 }
-                Console.WriteLine(result);
-                Lfx.Add(result);
-                result = 0;
+                Lfx.Add(sum);
+                Console.WriteLine("x: {0}\ty: {1}", k, sum);
             }
         }
 
