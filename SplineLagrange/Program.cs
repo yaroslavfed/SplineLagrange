@@ -8,7 +8,7 @@ namespace SplineLagrange
     {
         static List<double> points = new List<double>();    // известные точки
         static List<double> x = new List<double>();         // весь х
-        static List<double> fx = new List<double>();        // f(x)
+        //static List<double> fx = new List<double>();        // f(x)
         static List<double> Lfx = new List<double>();       // значение полинома Лагранжа в x
 
         static private void ReadMash(string path)
@@ -70,7 +70,8 @@ namespace SplineLagrange
                             li *= 1;
                         }
                     }
-                    li *= fx[i];
+                    //li *= fx[i];
+                    li *= funtion(points[i]);
                     sum += li;
                 }
                 Lfx.Add(sum);
@@ -83,10 +84,10 @@ namespace SplineLagrange
             string MapPath = Path.Combine(Directory.GetCurrentDirectory(), "map.txt");
             ReadMash(MapPath);
 
-            foreach (var point in points)
-            {
-                fx.Add(funtion(point));
-            }
+            //foreach (var point in points)
+            //{
+            //    fx.Add(funtion(point));
+            //}
             LagrangePolynomial();
             DrawPlot();
         }
