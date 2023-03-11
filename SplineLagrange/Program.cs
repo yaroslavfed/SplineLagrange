@@ -5,8 +5,9 @@ namespace SplineLagrange
 {
     internal class Program
     {
-        static List<double> x_points = new List<double>();    // точки по ОХ
-        static List<double> y_points = new List<double>();    // точки по ОY 
+        static List<double> points = new List<double>();    // точки по ОХ
+        static List<double> fx = new List<double>();        // точки по ОY 
+        static List<double> Lfx = new List<double>();       // точки по ОY 
 
         static private void ReadMash(string path)
         {
@@ -14,26 +15,15 @@ namespace SplineLagrange
             {
                 foreach (var number in sr.ReadLine()!.Split(' '))
                 {
-                    x_points.Add(double.Parse(number));
+                    points.Add(double.Parse(number));
                 }
             };
         }
 
-        static private double funtion(double x) => Math.Pow(x, 2);
-
-        static void Main(string[] args)
+        static private void DrawPlot()
         {
-            string MapPath = @"map.txt";
-            ReadMash(MapPath);
-
-            foreach (var point in x_points)
-            {
-                y_points.Add(funtion(point));
-                System.Console.WriteLine(point);
-            }
-
 #if true
-            var result = x_points.Concat(y_points);
+            var result = points.Concat(Lfx);
 
             using Process myProcess = new Process();
             myProcess.StartInfo.FileName = "python";
@@ -42,11 +32,56 @@ namespace SplineLagrange
             myProcess.StartInfo.RedirectStandardInput = true;
             myProcess.StartInfo.RedirectStandardOutput = false;
             myProcess.Start();
-            
+
             using BinaryWriter writer = new BinaryWriter(myProcess.StandardInput.BaseStream);
             Array.ForEach(result.ToArray(), writer.Write);
             writer.Flush();
 #endif
+        }
+
+        static private double funtion(double x) => Math.Pow(x, 6);
+
+        static private void LagrangePolynomial()
+        {
+            int n = points.Count;
+            double lk = 1;
+            double result = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int k = 0; k < n; k++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (j!=k)
+                        {
+                            lk *= (points[i] - points[j]) / (points[k] - points[j]);
+                        }
+                        else
+                        {
+                            lk *= 1;
+                        }
+                    }
+                    result += fx[k] * lk;
+                    lk = 1;
+                }
+                Console.WriteLine(result);
+                Lfx.Add(result);
+                result = 0;
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            string MapPath = Path.Combine(Directory.GetCurrentDirectory(), "map.txt");
+            ReadMash(MapPath);
+
+            foreach (var point in points)
+            {
+                fx.Add(funtion(point));
+            }
+            LagrangePolynomial();
+            DrawPlot();
         }
     }
 }

@@ -19,10 +19,10 @@ points = draw_plot()
 
 x = points[0]
 y = points[1]
-y1 = x
+#y1 = x
 
 fig, ax = plt.subplots()
 ax.set(title='Axes')
 ax.plot(x, y)
-ax.plot(x, y1)
+#ax.plot(x, y1)
 plt.show()
