@@ -47,7 +47,10 @@ namespace SplineLagrange
 
         static private double funtion(double x) => Math.Pow(E, Sin(PI * x));     //Math.Pow(x, 3); //Math.Pow(E, Sin(PI * x));
 
-        static private void BuildingSpline()
+
+
+        #region PiecewiseLinearLagrange
+        static private void PiecewiseLinearLagrange()
         {
             int n = points.Count;
 
@@ -69,6 +72,7 @@ namespace SplineLagrange
                 }
             }
         }
+        #endregion PiecewiseLinearLagrange
 
         #region LagrangePolynomial
         static private void LagrangePolynomial()
@@ -111,7 +115,7 @@ namespace SplineLagrange
             string MapPath = Path.Combine(Directory.GetCurrentDirectory(), "map.txt");
             ReadMash(MapPath);
             //LagrangePolynomial();
-            BuildingSpline();
+            //PiecewiseLinearLagrange();
             DrawPlot();
         }
     }
