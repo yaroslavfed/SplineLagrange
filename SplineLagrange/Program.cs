@@ -22,8 +22,6 @@ namespace SplineLagrange
                 {
                     points.Add(double.Parse(number));
                 }
-                a = points[0];
-                b = points[points.Count - 1];
             };
         }
 
@@ -47,7 +45,7 @@ namespace SplineLagrange
 #endif
         }
 
-        static private double funtion(double x) => Math.Pow(E, Sin(PI * x));
+        static private double funtion(double x) => Math.Pow(E, Sin(PI * x));     //Math.Pow(x, 3); //Math.Pow(E, Sin(PI * x));
 
         static private void BuildingSpline()
         {
@@ -71,11 +69,6 @@ namespace SplineLagrange
                 }
 
             }
-        }
-
-        static double FundamentalSplines(int j)
-        {
-            return 0;
         }
 
         #region LagrangePolynomial
