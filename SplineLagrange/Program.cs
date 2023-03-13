@@ -82,7 +82,7 @@ namespace SplineLagrange
                 middle += (points[i+1] - points[i])/2;
                 splitMesh.Add(middle);
             }
-            splitMesh.Add(points[points.Count - 1]);
+            splitMesh.Add(b);
 
             Console.Write("Новые узлы: ");
             foreach (double x in splitMesh)
@@ -132,9 +132,9 @@ namespace SplineLagrange
                     Lfx.Add(result);
                 }
             }
-            result = function(points[n - 1]);
-            Console.WriteLine("x: {0}\ty: {1}", points[n - 1], result);
-            x.Add(points[n - 1]);
+            result = function(b);
+            Console.WriteLine("x: {0}\ty: {1}", b, result);
+            x.Add(b);
             Lfx.Add(result);
         }
         #endregion PiecewiseLinearLagrange
