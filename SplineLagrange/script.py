@@ -32,6 +32,6 @@ for j in x1:
 plt.figure(figsize=(12, 7))
 plt.plot(x1, y1, 'b', label='function')
 plt.plot(x, y, 'r', label='spline')
-plt.legend();
+plt.legend()
 
 plt.show()
