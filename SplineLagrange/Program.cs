@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using static System.Math;
 
 namespace SplineLagrange
@@ -11,7 +12,6 @@ namespace SplineLagrange
 
         static double a, b;                                 // границы области
         static double globalStep = 0.01;                    // шаг для вывода графика
-        //static double step;                                 // шаг на элементе
 
         static private void ReadMash(string path)
         {
@@ -28,7 +28,6 @@ namespace SplineLagrange
 
         static private void DrawPlot()
         {
-#if true
             var result = x.Concat(Lfx);
 
             using Process myProcess = new Process();
@@ -39,10 +38,24 @@ namespace SplineLagrange
             myProcess.StartInfo.RedirectStandardOutput = false;
             myProcess.Start();
 
-            using BinaryWriter writer = new BinaryWriter(myProcess.StandardInput.BaseStream);
-            Array.ForEach(result.ToArray(), writer.Write);
-            writer.Flush();
-#endif
+            string outputPath = Path.Combine(Directory.GetCurrentDirectory(), "test.txt");
+            using (StreamWriter sw = new StreamWriter(outputPath))
+            {
+                foreach (var point in points)
+                    sw.Write(point + " ");
+                sw.WriteLine();
+
+                foreach (var point in points)
+                    sw.Write(function(point) + " ");
+                sw.WriteLine();
+
+                foreach (var point in x)
+                    sw.Write(point + " ");
+                sw.WriteLine();
+
+                foreach (var point in Lfx)
+                    sw.Write(point + " ");
+            };
         }
 
         static private double function(double x) => Math.Pow(E, Sin(PI * x));                   // Math.Pow(x, 3); //Math.Pow(E, Sin(PI * x));
@@ -182,8 +195,8 @@ namespace SplineLagrange
 
         static void Main(string[] args)
         {
-            string MapPath = Path.Combine(Directory.GetCurrentDirectory(), "map.txt");
-            ReadMash(MapPath);
+            string mapPath = Path.Combine(Directory.GetCurrentDirectory(), "map.txt");
+            ReadMash(mapPath);
             //LagrangePolynomial();
             //PiecewiseLinearLagrange();
             PiecewiseQuadraticLagrange();
