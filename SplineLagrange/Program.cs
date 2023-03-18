@@ -69,9 +69,9 @@ namespace SplineLagrange
             switch (i)
             {
                 case 0:
-                    return ((eps(x, xi, h) - alfa(xiplus, xi, h)) / ((-alfa(xiplus, xi, h)))) * ((eps(x, xi, h) - 1)/(-1));
+                    return ((eps(x, xi, h) - alfa(xiplus, xi, h)) / ((-alfa(xiplus, xi, h)))) * ((eps(x, xi, h) - 1) / (-1));
                 case 1:
-                    return (eps(x, xi, h) / alfa(xiplus, xi, h)) * ((eps(x, xi, h) - 1) /(alfa(xiplus, xi, h) - 1));
+                    return (eps(x, xi, h) / alfa(xiplus, xi, h)) * ((eps(x, xi, h) - 1) / (alfa(xiplus, xi, h) - 1));
                 case 2:
                     return (eps(x, xi, h) / 1) * ((eps(x, xi, h) - alfa(xiplus, xi, h)) / ((1 - alfa(xiplus, xi, h))));
                 default:
@@ -92,7 +92,7 @@ namespace SplineLagrange
             {
                 double middle = points[i];
                 splitMesh.Add(points[i]);
-                middle += (points[i+1] - points[i])/2;
+                middle += (points[i + 1] - points[i]) / 2;
                 splitMesh.Add(middle);
             }
             splitMesh.Add(b);
@@ -105,7 +105,7 @@ namespace SplineLagrange
             int n = splitMesh.Count;
 
             double result = 0;
-            for (int p = 0; p < n - 1; p+=2)
+            for (int p = 0; p < n - 1; p += 2)
             {
                 double step = splitMesh[p + 2] - splitMesh[p];
                 for (double k = splitMesh[p]; k <= splitMesh[p + 2]; k += globalStep)
@@ -130,7 +130,7 @@ namespace SplineLagrange
 
             Console.Write("Узлы: ");
             foreach (double point in points)
-                Console.Write("{0} ", point);                
+                Console.Write("{0} ", point);
             Console.WriteLine();
 
             double result = 0;
