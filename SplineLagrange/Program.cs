@@ -11,7 +11,7 @@ namespace SplineLagrange
         static List<double> Lfx = new List<double>();       // значение полинома Лагранжа в x
 
         static double a, b;                                 // границы области
-        static double globalStep = 0.01;                    // шаг для вывода графика
+        static double globalStep = 0.001;                    // шаг для вывода графика
 
         static private void ReadMash(string path)
         {
@@ -55,10 +55,11 @@ namespace SplineLagrange
 
                 foreach (var point in Lfx)
                     sw.Write(point + " ");
+                sw.WriteLine();
             };
         }
 
-        static private double function(double x) => Math.Pow(E, Sin(PI * x));                   // Math.Pow(x, 3); //Math.Pow(E, Sin(PI * x));
+        static private double function(double x) => Math.Pow(Math.Abs(x), Sin(Math.PI * x));                   // Math.Pow(x, 3); //Math.Pow(E, Sin(PI * x));
 
         #region PiecewiseQuadraticLagrange
         static private double eps(double x, double xi, double h) => (x - xi) / h;
@@ -120,6 +121,12 @@ namespace SplineLagrange
             Console.WriteLine("x: {0}\ty: {1}", splitMesh[n - 1], result);
             x.Add(splitMesh[n - 1]);
             Lfx.Add(result);
+
+            points.Clear();
+            foreach (var point in splitMesh)
+            {
+                points.Add(point);
+            }
         }
         #endregion PiecewiseQuadraticLagrange
 
