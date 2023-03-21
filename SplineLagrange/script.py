@@ -7,12 +7,15 @@ import struct
 import math
 
 step = 0.01
-x1 = np.arange(0.0, 2 + step, step)
+x1 = np.arange(-4, 4 + step, step)
 
 y1 = []
 for j in x1:
-    y1.append(math.pow(math.fabs(j), math.sin(math.pi * j)))
+    y1.append(1/(1+25*math.pow(j, 2)))
+    #y1.append(math.fabs(j))
+    #y1.append(math.pow(math.fabs(j), math.sin(math.pi * j)))
     #y1.append(math.exp(math.sin(j * math.pi)))
+    #y1.append(math.pow(j, 3))
 
 xp = []
 yp = []
